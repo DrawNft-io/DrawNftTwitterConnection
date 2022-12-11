@@ -50,11 +50,11 @@ pnpm start
 
 This will start the application and it will start listening for NFT mint events from the DrawNFT.io contract. When an NFT is minted, the application will generate a tweet about the mint event and post it on Twitter.
 
-# Built With
+## Built With
 
 * ethers.js - A JavaScript library for interacting with Ethereum
 * node-fetch - A light-weight module that brings window.fetch to Node.js
 * twitter-lite - A lightweight JavaScript client library for the Twitter API
 
-# License
+## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
