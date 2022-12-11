@@ -40,9 +40,9 @@ ENV='development'
 5. Replace the `TWITTER_CONSUMER_KEY` and `TWITTER_CONSUMER_SECRET`, `TWITTER_ACCESS_TOKEN_KEY`, `TWITTER_ACCESS_TOKEN_SECRET` values with the values of your Twitter credentials.
 
 
-5. Set the `ENV` variable to `"production"` if you want to use the mainnet version of the DrawNFT contract
+6. Set the `ENV` variable to `"production"` if you want to use the mainnet version of the DrawNFT contract
 
-6. Start the application using the following command:
+7. Start the application using the following command:
 
 ```
 pnpm start
