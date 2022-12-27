@@ -7,13 +7,12 @@ import fetch from "node-fetch";
 import * as dotenv from "dotenv";
 
 dotenv.config();
-const { INFURA_WEB_THREE_PROJECT_ID, INFURA_WEB_THREE_PROEJECT_SECRET, ENV } =
-  process.env;
+const { ALCHEMY_GOERLI_API_KEY, ENV } = process.env;
 
 // Web3 provider
 const goerliNetwork = 5;
 const provider = new ethers.providers.WebSocketProvider(
-  `wss://:${INFURA_WEB_THREE_PROEJECT_SECRET}@goerli.infura.io/ws/v3/${INFURA_WEB_THREE_PROJECT_ID}`,
+  `wss://eth-goerli.g.alchemy.com/v2/${ALCHEMY_GOERLI_API_KEY}`,
   goerliNetwork
 );
 
@@ -33,19 +32,26 @@ export const listenForMintEvent = async (callback) => {
   const contract = new ethers.Contract(address, abi, provider);
 
   contract.on("MintedNft", async (nftId) => {
-    // Get metadata
-    const nftMetadataURl = await contract.tokenURI(nftId);
+    try {
+      // Get metadata
+      const nftMetadataURl = await contract.tokenURI(nftId);
 
-    // Make a GET request to the website's URL
-    const response = await fetch(nftMetadataURl);
+      const ipfsUrl = `https://ipfs.io/ipfs/${nftMetadataURl.substring(7)}`;
 
-    // Parse the response body as JSON
-    const data = await response.json();
+      // Make a GET request to the website's URL
+      const response = await fetch(ipfsUrl);
 
-    // Get Account
-    const account = await contract.ownerOf(nftId);
+      // Parse the response body as JSON
+      const data = await response.json();
 
-    // Call the callback
-    callback(nftId, account, data?.image);
+      // Get Account
+      const account = await contract.ownerOf(nftId);
+      const imageUrl = `https://ipfs.io/ipfs/${data?.image.substring(7)}`;
+
+      // Call the callback
+      callback(nftId, account, imageUrl);
+    } catch (e) {
+      console.error(`Error in the Conctract.on function: ${e}`);
+    }
   });
 };
